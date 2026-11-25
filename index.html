@@ -11,10 +11,14 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="It's Ivhani's Birthday">
   <meta property="og:description" content="You're invited to her 21st Birthday Celebration. Tap to open your invitation.">
-  <meta property="og:image" content="https://itumelengramaswele-spec.github.io/ivhani-invite/og-image.jpg">
+  <meta property="og:image" content="https://ivhani-21st.github.io/ivhani-invite/og-image.jpg">
+  <meta property="og:site_name" content="Ivhani's 21st Birthday">
+  <meta property="og:image:secure_url" content="https://ivhani-21st.github.io/ivhani-invite/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="It's Ivhani's Birthday - burgundy invitation card">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://itumelengramaswele-spec.github.io/ivhani-invite/">
+  <meta property="og:url" content="https://ivhani-21st.github.io/ivhani-invite/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,24 +74,45 @@
     .corner.br { bottom: -4%; right: -10%; width: 50%; }
     .corner.br svg { transform: rotate(180deg); }
 
-    /* The arch that holds the scrolling pages */
-    .arch {
+    /* The scalloped frame that holds the scrolling pages */
+    .frame {
       position: absolute;
       inset: 7% 9% 14% 9%;
-      border-radius: 999px 999px 28px 28px;
-      border: 2px solid var(--hi);
-      box-shadow:
-        0 0 0 2px rgba(140, 30, 60, .22),
-        inset 0 0 0 3px rgba(140, 30, 60, .12),
-        3px 5px 14px rgba(120, 20, 50, .25);
+      z-index: 2;
+      --r: 13px; /* size of each scallop */
+      filter:
+        drop-shadow(1.5px 0 0 var(--hi)) drop-shadow(-1.5px 0 0 var(--hi))
+        drop-shadow(0 1.5px 0 var(--hi)) drop-shadow(0 -1.5px 0 var(--hi))
+        drop-shadow(3px 5px 8px rgba(120, 20, 50, .3));
+    }
+    .frame:has(.arch:focus-visible) {
+      filter:
+        drop-shadow(2px 0 0 var(--burg)) drop-shadow(-2px 0 0 var(--burg))
+        drop-shadow(0 2px 0 var(--burg)) drop-shadow(0 -2px 0 var(--burg));
+    }
+    .arch {
+      position: absolute;
+      inset: 0;
       background: var(--pink-100);
       overflow-y: auto;
       scroll-snap-type: y mandatory;
       scrollbar-width: none;
-      z-index: 2;
+      outline: none;
+      /* centre block + a row of half-circles along every edge = scalloped border */
+      -webkit-mask:
+        linear-gradient(#000 0 0) center / calc(100% - 2 * var(--r) + 1px) calc(100% - 2 * var(--r) + 1px) no-repeat,
+        radial-gradient(ellipse 50% 100% at 50% 100%, #000 96%, #0000 100%) top left / calc(2 * var(--r)) var(--r) round no-repeat,
+        radial-gradient(ellipse 50% 100% at 50% 0, #000 96%, #0000 100%) bottom left / calc(2 * var(--r)) var(--r) round no-repeat,
+        radial-gradient(ellipse 100% 50% at 100% 50%, #000 96%, #0000 100%) top left / var(--r) calc(2 * var(--r)) no-repeat round,
+        radial-gradient(ellipse 100% 50% at 0 50%, #000 96%, #0000 100%) top right / var(--r) calc(2 * var(--r)) no-repeat round;
+              mask:
+        linear-gradient(#000 0 0) center / calc(100% - 2 * var(--r) + 1px) calc(100% - 2 * var(--r) + 1px) no-repeat,
+        radial-gradient(ellipse 50% 100% at 50% 100%, #000 96%, #0000 100%) top left / calc(2 * var(--r)) var(--r) round no-repeat,
+        radial-gradient(ellipse 50% 100% at 50% 0, #000 96%, #0000 100%) bottom left / calc(2 * var(--r)) var(--r) round no-repeat,
+        radial-gradient(ellipse 100% 50% at 100% 50%, #000 96%, #0000 100%) top left / var(--r) calc(2 * var(--r)) no-repeat round,
+        radial-gradient(ellipse 100% 50% at 0 50%, #000 96%, #0000 100%) top right / var(--r) calc(2 * var(--r)) no-repeat round;
     }
     .arch::-webkit-scrollbar { display: none; }
-    .arch:focus-visible { outline: 3px solid var(--burg); outline-offset: 4px; }
 
     .page {
       min-height: 100%;
@@ -330,6 +355,7 @@
   <div class="corner tl emboss"><svg class="flora-svg" viewBox="0 0 240 240" aria-hidden="true"><use href="#sprig"/></svg></div>
   <div class="corner br emboss"><svg class="flora-svg" viewBox="0 0 240 240" aria-hidden="true"><use href="#sprig"/></svg></div>
 
+  <div class="frame">
   <div class="arch" id="arch" tabindex="0" aria-label="Birthday invitation, scroll to read">
 
     <!-- 1. Ribbon -->
@@ -390,6 +416,7 @@
       <p id="thanks" role="status">Almost done! Press send in WhatsApp to confirm your reply.</p>
     </section>
 
+  </div>
   </div>
 
   <button class="btn hint" id="hint" type="button">Scroll down &darr;</button>
